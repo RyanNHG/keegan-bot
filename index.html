@@ -18,11 +18,13 @@
 
 		body {
 			background-color: #333;
-			color: white !important;
+			color: white;
+			overflow: hidden;
 		}
 
 		html, body, #app, .particles, .page {
 			height: 100%;
+			overflow: hidden;
 		}
 
 		#app {
@@ -41,12 +43,14 @@
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			transition: .3s;
+			transition: opacity 1s;
 		}
 
 		.hidden {
 			visibility: hidden;
 			opacity: 0;
+			height: 0px;
+			margin: 0;
 		}
 
 		.visible {
@@ -58,6 +62,10 @@
 			font-size: 3rem;
 		}
 
+		.prompt {
+			color: #ccc;
+		}
+
 	</style>
 </head>
 <body>
@@ -67,14 +75,14 @@
 	<div id="app">
 
 		<!-- Intro Page -->
-		<div v-if="page === 'intro'" class="page intro">
+		<div v-bind:class="page === 'intro' ? 'visible' : 'hidden'" class="page intro">
 			<h1 class="intro-title">Welcome to KeeganBot</h1>
 			<p class="intro-subtitle">A revolution in modern AI</p>
 			<button class="button button-primary intro-button" v-on:click="setPage('main')">Begin</button>
 		</div>
 
 		<!-- Main Page -->
-		<div v-if="page === 'main'" class="page main">
+		<div v-bind:class="page === 'main' ? 'visible' : 'hidden'" class="page main">
 			<h2 v-bind:class="response !== undefined ? 'visible' : 'hidden'" class="prompt">What do you want to say?</h2>
 			<h2 v-bind:class="response === undefined ? 'visible' : 'hidden'" class="prompt">Keegan is thinking...</h2>
 			<input type="text" class="user-input" v-model="userInput" v-on:keyup.enter="respond()" />
