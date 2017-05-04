@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Keegan Bot</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+	<style>
+
+	.particles {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		z-index: 0;
+	}
+
+		body {
+			background-color: #333;
+			color: white !important;
+		}
+
+		html, body, #app, .particles, .page {
+			height: 100%;
+		}
+
+		#app {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			z-index: 1;
+			overflow: hidden;
+		}
+
+		#app * {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			transition: .3s;
+		}
+
+		.hidden {
+			visibility: hidden;
+			opacity: 0;
+		}
+
+		.visible {
+			visibility: visible;
+			opacity: 1;
+		}
+
+		input {
+			font-size: 3rem;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div class="particles" id="particles"></div>
+
+	<div id="app">
+
+		<!-- Intro Page -->
+		<div v-if="page === 'intro'" class="page intro">
+			<h1 class="intro-title">Welcome to KeeganBot</h1>
+			<p class="intro-subtitle">A revolution in modern AI</p>
+			<button class="button button-primary intro-button" v-on:click="setPage('main')">Begin</button>
+		</div>
+
+		<!-- Main Page -->
+		<div v-if="page === 'main'" class="page main">
+			<h2 v-bind:class="response !== undefined ? 'visible' : 'hidden'" class="prompt">What do you want to say?</h2>
+			<h2 v-bind:class="response === undefined ? 'visible' : 'hidden'" class="prompt">Keegan is thinking...</h2>
+			<input type="text" class="user-input" v-model="userInput" v-on:keyup.enter="respond()" />
+			<h3 v-bind:class="response !== undefined ? 'visible' : 'hidden'" class="response" v-html="response"></h3>
+			<i v-bind:class="response === undefined ? 'visible' : 'hidden'" class="loading-icon fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+		</div>
+
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.2/vue.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+	<script type="text/javascript">
+
+		particlesJS.load('particles', 'particlesjs-config.json', function() {
+			console.log('particles loaded')
+		})
+
+		var vm = new Vue({
+
+			el: '#app',
+
+			data: {
+				userInput: '',
+				response: '',
+				page: 'intro'
+			},
+
+			methods: {
+
+				respond: function () {
+					var self = this
+					self.response = undefined
+					setTimeout(function () {
+						self.response = 'No.'
+					}, parseInt(Math.random() * 5000) + 1000)
+				},
+
+				setPage: function (name) {
+					this.page = name
+				}
+
+			}
+		})
+	</script>
+
+</body>
+</html>
